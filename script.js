@@ -20,10 +20,9 @@ const tempExtents = [0, 0, 0, 0];
 
 
 const drawSin = [
-    //(x) => 100*Math.exp(.01*x),
     (x) => Math.sin(x),
-    //(x) => 1 / x,
-    (x) => x
+    (x) => Math.sqrt(10 - x*x),
+    (x) => -Math.sqrt(10 - x*x)
 ]
 
 let mouseDownEvent = {};
@@ -33,7 +32,11 @@ canvasEl.addEventListener('mousedown', (e) => {
     mouseDownEvent = e;
     canvasEl.addEventListener('mousemove', xxx);
 });
-canvasEl.addEventListener('mouseup', (e) => {
+canvasEl.addEventListener('mouseup', endDrag);
+
+canvasEl.addEventListener('mouseout', endDrag);
+
+function endDrag() {
     canvasEl.removeEventListener('mousemove', xxx);
     panning = false;
     offset[0] = tempOffset[0];
@@ -42,7 +45,7 @@ canvasEl.addEventListener('mouseup', (e) => {
     extents[1] = tempExtents[1];
     extents[2] = tempExtents[2];
     extents[3] = tempExtents[3];
-});
+}
 
 canvasEl.addEventListener('wheel', (e) => {
     if (lockAspectRatio) {
@@ -115,7 +118,7 @@ function draw() {
 function arrayDrawer(func) {
     const currentExtents = getExtents();
     const currentOffset = getOffset();
-    const step = (currentExtents[1] - currentExtents[0]) / 1000;
+    const step = (currentExtents[1] - currentExtents[0]) / 2000;
     ctx.beginPath();
     for (let i = currentExtents[0]; i < currentExtents[1]; i += step) {
         const y = func(i / scaleX) * scaleY;
