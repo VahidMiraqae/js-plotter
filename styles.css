@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#root > canvas { 
+    margin: 20px;
+    border: solid 1px black;  
+    cursor: grab;
+}
+
+#root > canvas:active {
+    cursor: grabbing
+}
